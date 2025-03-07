@@ -1,0 +1,342 @@
+---
+title: "Public Health Measure: Research Paper"
+author: "Kajal Gupta"
+date: "2024-12-12"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# Load necessary libraries
+library(readxl)
+library(dplyr)
+library(psych)
+library(readxl)
+library(corrplot)
+# File path to the survey data
+file_path <- "Psychometric Analysis_ProjectSurvey.xlsx"
+```
+
+
+# Section 1: English Survey
+```{r}
+# Load the English survey
+english_survey <- read_excel(file_path, sheet = "English")
+
+# Handle missing values by replacing them with column means
+english_survey <- english_survey %>%
+  mutate(across(c(PL_1, PL_2, FS_1, FS_2, PG_1, PG_2, SLS_1, SLS_2,
+                  MEW_1, MEW_2, MEW_3, OLP_1, OLP_2, OLP_3),
+                ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)))
+
+# Creating Matrix
+english_matrix <- as.matrix(english_survey[, c("PL_1", "PL_2", "FS_1", "FS_2", "PG_1", "PG_2", 
+                                                "SLS_1", "SLS_2", "MEW_1", "MEW_2", "MEW_3", 
+                                                "OLP_1", "OLP_2", "OLP_3")])
+
+# Calculate Cronbach's alpha
+english_alpha <- alpha(english_matrix, check.keys = TRUE)
+print("Cronbach's Alpha for English Survey:")
+print(english_alpha)
+
+# Measure Criterion Validity (Correlation Matrix)
+english_correlation <- cor(english_matrix)
+print("Criterion Validity (Correlation Matrix) for English Survey:")
+print(english_correlation)
+corrplot(english_correlation, method = "square") 
+
+# Conduct Exploratory Factor Analysis (EFA)
+fa.parallel(english_matrix, fa = "fa", n.iter = 100, main = "Parallel Analysis for English Survey")
+english_efa <- fa(english_matrix, nfactors = 2, rotate = "varimax")
+print("EFA for English Survey:")
+print(english_efa)
+
+```
+
+
+
+# Section 2: Mandarin Survey
+```{r}
+# Load the Mandarin survey
+mandarin_survey <- read_excel(file_path, sheet = "Mandarin")
+
+# Handle missing values by replacing them with column means
+mandarin_survey <- mandarin_survey %>%
+  mutate(across(c(PL_1, PL_2, FS_1, FS_2, PG_1, PG_2, SLS_1, SLS_2,
+                  MEW_1, MEW_2, MEW_3, OLP_1, OLP_2, OLP_3),
+                ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)))
+
+# Creating Matrix
+mandarin_matrix <- as.matrix(mandarin_survey[, c("PL_1", "PL_2", "FS_1", "FS_2", "PG_1", "PG_2", 
+                                                  "SLS_1", "SLS_2", "MEW_1", "MEW_2", "MEW_3", 
+                                                  "OLP_1", "OLP_2", "OLP_3")])
+
+# Calculate Cronbach's alpha
+mandarin_alpha <- alpha(mandarin_matrix, check.keys = TRUE)
+print("Cronbach's Alpha for Mandarin Survey:")
+print(mandarin_alpha)
+
+# Measure Criterion Validity (Correlation Matrix)
+mandarin_correlation <- cor(mandarin_matrix)
+print("Criterion Validity (Correlation Matrix) for Mandarin Survey:")
+print(mandarin_correlation)
+corrplot(mandarin_correlation, method = "square") 
+
+# Conduct Exploratory Factor Analysis (EFA)
+fa.parallel(mandarin_matrix, fa = "fa", n.iter = 100, main = "Parallel Analysis for Mandarin Survey")
+mandarin_efa <- fa(mandarin_matrix, nfactors = 2, rotate = "varimax")
+print("EFA for Mandarin Survey:")
+print(mandarin_efa)
+```
+
+
+
+# Section 3: Hindi Survey
+```{r }
+# Load the Hindi survey
+hindi_survey <- read_excel(file_path, sheet = "Hindi")
+
+# Handle missing values by replacing them with column means
+hindi_survey <- hindi_survey %>%
+  mutate(across(c(PL_1, PL_2, FS_1, FS_2, PG_1, PG_2, SLS_1, SLS_2,
+                  MEW_1, MEW_2, MEW_3, OLP_1, OLP_2, OLP_3),
+                ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)))
+
+# Creating Matrix
+hindi_matrix <- as.matrix(hindi_survey[, c("PL_1", "PL_2", "FS_1", "FS_2", "PG_1", "PG_2", 
+                                            "SLS_1", "SLS_2", "MEW_1", "MEW_2", "MEW_3", 
+                                            "OLP_1", "OLP_2", "OLP_3")])
+
+# Calculate Cronbach's alpha
+hindi_alpha <- alpha(hindi_matrix, check.keys = TRUE)
+print("Cronbach's Alpha for Hindi Survey:")
+print(hindi_alpha)
+
+# Measure Criterion Validity (Correlation Matrix)
+hindi_correlation <- cor(hindi_matrix)
+print("Criterion Validity (Correlation Matrix) for Hindi Survey:")
+print(hindi_correlation)
+corrplot(hindi_correlation, method = "square") 
+
+# Conduct Exploratory Factor Analysis (EFA)
+fa.parallel(hindi_matrix, fa = "fa", n.iter = 100, main = "Parallel Analysis for Hindi Survey")
+hindi_efa <- fa(hindi_matrix, nfactors = 2, rotate = "varimax")
+print("EFA for Hindi Survey:")
+print(hindi_efa)
+```
+
+
+## Interpretation 
+
+#### **Cronbach's Alpha**
+Cronbach's alpha is a measure of internal consistency or reliability for a set of items in a survey.
+
+1. **English Survey**: Cronbach's alpha was 0.7 (standardized = 0.75), indicating acceptable reliability. However, items such as `MEW_1` had low item-total correlation, suggesting potential misalignment with the overall construct.
+2. **Mandarin Survey**: Cronbach's alpha was 0.91 (standardized = 0.92), indicating excellent reliability. Most items contributed well to the scale's consistency.
+3. **Hindi Survey**: Cronbach's alpha was 0.96 (standardized = 0.96), indicating excellent reliability. All items aligned strongly with the overall scale, though some items showed redundancy (e.g., high inter-item correlations).
+
+
+
+#### **Exploratory Factor Analysis (EFA)**
+EFA identifies latent factors underlying the survey items.
+
+1. **English Survey**:
+   - Parallel analysis suggested retaining 2 factors, capturing 28% cumulative variance.
+   - Items like `FS_1` and `FS_2` loaded strongly on Factor 2, representing a distinct dimension (possibly career-related confidence).
+   - Some items (e.g., `MEW_1`) had low communalities, suggesting weak alignment with identified factors.
+
+2. **Mandarin Survey**:
+   - Parallel analysis suggested 1 factor but analysis retained 2 for comparison.
+   - Factor 1 captured career confidence, while Factor 2 included items like `SLS_2` and `MEW_2`, reflecting social and emotional resilience.
+   - The cumulative variance explained was 57%, showing a robust factor structure.
+
+3. **Hindi Survey**:
+   - Parallel analysis suggested 1 factor, but retaining 2 explained 78% cumulative variance.
+   - Factor 1 captured professional readiness, while Factor 2 included `OLP_1` and `SLS_2`, indicating lifestyle alignment.
+   - Items like `MEW_1` showed weak communalities, indicating poor fit.
+
+
+
+#### **Criterion Validity**
+Criterion validity examines how well items correlate with the constructs they are designed to measure.
+
+1. **English Survey**:
+   - Correlation coefficients among items were moderate (0.2–0.6). Items `OLP_2` and `MEW_1` had lower correlations with others, suggesting potential construct divergence.
+   - High correlations within subsets (e.g., `PG_1`, `PG_2`) indicated consistent measurement of subdimensions.
+
+2. **Mandarin Survey**:
+   - Strong correlations (0.4–0.8) were observed among items like `PG_1` and `MEW_2`, supporting convergent validity.
+   - Negative correlations for `MEW_1` indicated misalignment with the construct, possibly due to item wording or interpretation differences.
+
+3. **Hindi Survey**:
+   - High correlations (>0.7) among most items indicated strong internal validity.
+   - Items `OLP_1` and `MEW_1` had weaker correlations, suggesting they might measure distinct constructs.
+
+
+
+### Summary
+The psychometric evaluation revealed:
+- **High reliability** across surveys, with Cronbach's alpha consistently above 0.7, indicating reliable scales. Items with low correlations may need revision or removal.
+- **EFA insights**: English and Mandarin surveys revealed two-factor structures, while the Hindi survey leaned towards a single dominant factor with minimal cross-loadings.
+- **Criterion validity**: Correlation patterns supported construct validity, though some items (e.g., `MEW_1` and `OLP_2`) showed weak alignment and might benefit from rewording or exclusion.
+
+Further refinements, such as re-evaluating weak items and exploring cultural differences in interpretation, can enhance the robustness of the survey instruments.
+
+
+**Interpretation of the three corrplot**:
+
+1. **English Survey Corrplot**:
+   - The correlations are **moderate**, with coefficients ranging between 0.2–0.6.
+   - Substantial positive correlations were observed between related constructs like **FS_1 and FS_2** (financial stability) and **PG_1 and PG_2** (personal growth), indicating consistency in measuring dimensions.
+   - Items like **MEW_1** and **OLP_2** showed weaker or negative correlations, suggesting misalignment or distinct constructs.
+
+2. **Mandarin Survey Corrplot**:
+   - Correlations are **stronger** overall, with many values between 0.4–0.8.
+   - Constructs like **PG_1** and **FS_2** show high interrelations, supporting convergent validity.
+   - Negative correlations, especially with **MEW_1**, highlight a potential issue with item wording or interpretation, particularly in the Mandarin context.
+
+3. **Hindi Survey Corrplot**:
+   - The correlations are **very strong**, with coefficients frequently exceeding 0.7, indicating a high degree of internal consistency.
+   - Constructs like **FS_1 and FS_2**, **PG_1 and PG_2**, and **SLS_1 and SLS_2** are highly interrelated, showing redundancy.
+   - Items such as **MEW_1** and **OLP_1** showed relatively lower correlations, suggesting they may measure slightly different or independent constructs.
+
+**In summary:**
+- **English**: Moderate consistency but weak spots (e.g., MEW_1).
+- **Mandarin**: Strong correlations overall, with MEW_1 as a potential outlier.
+- **Hindi**: Very high internal consistency but some redundancy across items.
+
+
+### Comparison Of Construct Validity Across The Three Survey
+```{r}
+# Extract loadings for comparison
+english_loadings <- as.data.frame(english_efa$loadings[])
+mandarin_loadings <- as.data.frame(mandarin_efa$loadings[])
+hindi_loadings <- as.data.frame(hindi_efa$loadings[])
+
+# Add survey labels to each dataset
+english_loadings$Survey <- "English"
+mandarin_loadings$Survey <- "Mandarin"
+hindi_loadings$Survey <- "Hindi"
+
+# Combine loadings into one data frame
+combined_loadings <- bind_rows(
+  english_loadings %>% mutate(Variable = rownames(.)),
+  mandarin_loadings %>% mutate(Variable = rownames(.)),
+  hindi_loadings %>% mutate(Variable = rownames(.))
+)
+
+# Reshape data for easier comparison
+library(tidyr)
+comparison_table <- combined_loadings %>%
+  pivot_longer(cols = starts_with("MR"), names_to = "Factor", values_to = "Loading") %>%
+  arrange(Variable, Survey, Factor)
+
+# Print combined comparison table
+print("Comparison of EFA Loadings Across Surveys:")
+print(comparison_table)
+
+# Load ggplot2 for visualization
+library(ggplot2)
+
+# Create a bar plot for loadings comparison
+ggplot(comparison_table, aes(x = Variable, y = Loading, fill = Survey)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~Factor, scales = "free_y") +
+  theme_minimal() +
+  labs(
+    title = "Comparison of Factor Loadings Across Surveys",
+    x = "Variable",
+    y = "Loading",
+    fill = "Survey"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  )
+```
+
+### **Interpretation of Two Factors (MR1 and MR2) Based on Construct Validity**
+
+The analysis of the survey items reveals two distinct factors (**MR1** and **MR2**) that capture different dimensions of students' perceptions about life after graduation. These factors help explain the underlying structure of the data, providing insight into how various aspects of life—such as **financial stability**, **personal growth**, **mental and emotional well-being**, **social life**, **overall perception** and **professional life**—are interrelated.
+
+### **Factor 1: MR1 (Holistic Life Outlook)**
+**MR1** appears to capture a broad, **holistic perspective** of life after graduation. It reflects internal perceptions, including overall life satisfaction, personal development, emotional well-being,social support and all other. The following items load strongly on **MR1**:
+
+- **FS (Financial Stability)**:
+  - **FS_1** and **FS_2** show moderate loadings, particularly in Hindi and Mandarin (e.g., **FS_1**: Hindi = 0.909, Mandarin = 0.648). This indicates that students' perceptions of financial security contribute to **MR1**, but the factor is more prominent for non-English speakers.
+  
+- **PG (Personal Growth)**:
+  - **PG_1** and **PG_2** load moderately on **MR1** across all languages, showing that personal development and growth are integral to this holistic outlook (e.g., **PG_1**: Hindi = 0.74, Mandarin = 0.77).
+
+- **MEW (Mental & Emotional Well-being)**:
+  - **MEW_1**, **MEW_2**, and **MEW_3** have strong loadings on **MR1**, indicating that mental and emotional well-being play a central role in **MR1**. These items particularly load high in Hindi and English (e.g., **MEW_2**: Hindi = 0.72, English = 0.71).
+
+- **SLS (Social Life & Support)**:
+  - Items **SLS_1** and **SLS_2** load moderately in Hindi (e.g., **SLS_1**: Hindi = 0.67). This suggests that social life and support are part of a student's general well-being and are closely linked to **MR1**.
+
+- **PL (Professional Life)**:
+  - Items like **PL_1** and **PL_2** have moderate loadings, especially in Hindi and Mandarin (e.g., **PL_1**: Hindi = 0.67, Mandarin = 0.66). These loadings suggest that **MR1** also captures students' perceptions of their professional lives post-graduation, especially for non-English speakers.
+
+### **Factor 2: MR2 (External and Practical Aspects)**
+**MR2**, in contrast, seems to focus on more **external, practical aspects** of life after graduation, such as financial security and social support. This factor reflects tangible, real-world aspects that are more easily observed and measured. The following items load strongly on **MR2**:
+
+- **FS (Financial Stability)**:
+  - Items **FS_1** and **FS_2** load strongly on **MR2**, especially in English (e.g., **FS_1**: English = 0.77). This shows that financial stability is a key component of **MR2**, reflecting its tangible, external importance to students’ future outlook.
+
+- **PG (Personal Growth)**:
+  - Items **PG_1** and **PG_2** load moderately on **MR2** (e.g., **PG_1**: English = 0.55, Mandarin = 0.49), indicating that while personal growth is important, it is considered somewhat more externally related in this factor.
+
+- **MEW (Mental & Emotional Well-being)**:
+  - Items **MEW_2** and **MEW_3** show strong loadings on **MR2**, particularly in Hindi (e.g., **MEW_2**: Hindi = 0.72). This suggests that emotional well-being, while internal, is linked with the external experiences and circumstances students face after graduation.
+
+- **SLS (Social Life & Support)**:
+  - **SLS_2** loads very strongly in Mandarin (e.g., **SLS_2**: Mandarin = 0.99). This indicates that social life and support are crucial in **MR2**, especially in terms of tangible, real-world support systems.
+
+- **PL (Professional Life)**:
+  - Items like **PL_1** and **PL_2** load weakly or moderately on **MR2**, with higher loadings in non-English languages (e.g., **PL_1**: Hindi = 0.52). This reflects that while professional life is part of the factor, it is less central than other dimensions such as financial stability or social life.
+
+### **Comparison Between MR1 and MR2**
+The two factors, **MR1** and **MR2**, both include all six categories (Financial Stability, Personal Growth, Mental & Emotional Well-being, Social Life & Support, and Professional Life), but they differ in terms of **focus** and **dimension**:
+
+1. **MR1**:
+   - Represents a **holistic view** of life after graduation, encompassing overall satisfaction, personal growth, mental well-being, social connections, and professional life.
+   - Focuses on internal, **subjective perceptions** of life after graduation, where aspects like emotional well-being and personal growth play a significant role.
+   - The factor loadings suggest that **MR1** is more prominent in non-English surveys (Hindi and Mandarin), highlighting cultural or language-based differences in perceiving these aspects.
+
+2. **MR2**:
+   - Emphasizes **external factors** such as financial security and social support systems, and also includes aspects of professional life.
+   - Reflects more tangible, **practical concerns** that students are likely to encounter as they transition to life after graduation, such as securing a stable income and maintaining social connections.
+   - **MR2** shows a stronger association with **financial stability** and **social life**, particularly in English and Mandarin, which could indicate different cultural attitudes toward these aspects of life.
+
+### **Conclusion**
+In summary, the two factors **MR1** and **MR2** capture different dimensions of students’ perceptions about life after graduation:
+- **MR1** focuses on a **holistic, internal perspective**, highlighting overall well-being, personal growth, and mental health.
+- **MR2** captures more **external, practical aspects**, particularly financial stability and social support.
+
+By interpreting the individual items within these factors, we gain insights into how different aspects of students' post-graduation outlook are structured and how cultural factors may influence perceptions of these aspects. The two-factor model helps explain the **construct validity** of the survey, shedding light on how different dimensions of life after graduation are interrelated.
+
+
+
+The graph provides a visual comparison of the factor loadings across the three language versions of the survey (English, Mandarin, and Hindi) for the MR1 and MR2 factors. The key findings from the graph are:
+
+1. Distinct Factor Structures: The factor loadings differ significantly between the MR1 and MR2 factors, indicating they capture distinct dimensions in the data.
+
+2. Differences across Languages:
+   - For the MR1 factor, the factor loadings tend to be higher in the Mandarin and Hindi surveys compared to the English survey, suggesting cultural or language-based differences in how respondents perceive the holistic, internal aspects of life after graduation.
+   - For the MR2 factor, the factor loadings show more variation across the language versions, with some variables (e.g., FS_1, SLS_2) having notably higher loadings in specific language surveys.
+
+3. Variable-Specific Differences:
+   - Certain variables, such as FS_1, PG_1, and MEW_2, exhibit varying degrees of importance across the two factors and language versions.
+   - This indicates that the relative significance of different aspects of post-graduation life (financial stability, personal growth, mental/emotional well-being, etc.) may be perceived differently by respondents from different cultural or linguistic backgrounds.
+
+Relating these findings to the detailed interpretation provided above:
+
+The graph supports the key distinctions between the MR1 and MR2 factors described in the interpretation. MR1 appears to capture a more holistic, internal perspective on life after graduation, with stronger loadings in the Mandarin and Hindi surveys. In contrast, MR2 focuses on more external, practical aspects, with variable-specific differences in factor loadings across the language versions.
+
+The interpretation highlights how MR1 reflects overall well-being, personal growth, and mental health, while MR2 emphasizes financial stability and social support. The visual comparison in the graph aligns with these findings, showing the divergent factor structures and the nuanced differences in how respondents from different language backgrounds perceive these various aspects of post-graduation life.
+
+Overall, the graph and the detailed interpretation provide a comprehensive understanding of the underlying construct validity of the survey, shedding light on the cultural and linguistic influences that shape students' perceptions about their future after graduation.
