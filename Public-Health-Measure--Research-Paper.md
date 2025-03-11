@@ -173,14 +173,14 @@ print(english_correlation)
 corrplot(english_correlation, method = "square") 
 ```
 
-![](Public-Health-Measure--Research-Paper_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](Plots/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 # Conduct Exploratory Factor Analysis (EFA)
 fa.parallel(english_matrix, fa = "fa", n.iter = 100, main = "Parallel Analysis for English Survey")
 ```
 
-![](Public-Health-Measure--Research-Paper_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->
+![](Plots/unnamed-chunk-2-2.png)<!-- -->
 
     ## Parallel analysis suggests that the number of factors =  2  and the number of components =  NA
 
@@ -402,14 +402,14 @@ print(mandarin_correlation)
 corrplot(mandarin_correlation, method = "square") 
 ```
 
-![](Public-Health-Measure--Research-Paper_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](Plots/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 # Conduct Exploratory Factor Analysis (EFA)
 fa.parallel(mandarin_matrix, fa = "fa", n.iter = 100, main = "Parallel Analysis for Mandarin Survey")
 ```
 
-![](Public-Health-Measure--Research-Paper_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+![](Plots/unnamed-chunk-3-2.png)<!-- -->
 
     ## Parallel analysis suggests that the number of factors =  1  and the number of components =  NA
 
@@ -617,7 +617,7 @@ print(hindi_correlation)
 corrplot(hindi_correlation, method = "square") 
 ```
 
-![](Public-Health-Measure--Research-Paper_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](Plots/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 # Conduct Exploratory Factor Analysis (EFA)
@@ -632,7 +632,7 @@ fa.parallel(hindi_matrix, fa = "fa", n.iter = 100, main = "Parallel Analysis for
 
     ## In factor.scores, the correlation matrix is singular, the pseudo inverse is  used
 
-![](Public-Health-Measure--Research-Paper_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
+![](Plots/unnamed-chunk-4-2.png)<!-- -->
 
     ## Parallel analysis suggests that the number of factors =  1  and the number of components =  NA
 
@@ -904,7 +904,7 @@ ggplot(comparison_table, aes(x = Variable, y = Loading, fill = Survey)) +
   )
 ```
 
-![](Public-Health-Measure--Research-Paper_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](Plots/unnamed-chunk-5-1.png)<!-- -->
 
 ### **Interpretation of Two Factors (MR1 and MR2) Based on Construct Validity**
 
